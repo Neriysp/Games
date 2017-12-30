@@ -11,7 +11,11 @@ function H2D(){
     }
 
     this.onCollision=(target, objType, callback)=>{
-        this.collisonPair.target.objType=callback;
+        let o={};
+        o[objType.constructor.name]=callback;
+        this.collisonPair[target.constructor.name]=o;
+        
+        console.log(this.collisonPair);
     }
 
     this.show=()=>{
@@ -38,8 +42,9 @@ function H2D(){
                 e.y + e.height <= this.allObjects[i].y + this.allObjects[i].height))) {
 
                 if (this.collisonPair.hasOwnProperty(e.constructor.name)){
-                    if (this.collisonPair[e.constructor.name].hasOwnProperty(this.allObjects[i].constructor.name){
-                        this.collisonPair[e.constructor.name]();
+
+                    if (this.collisonPair[e.constructor.name].hasOwnProperty(this.allObjects[i].constructor.name)) {
+                        this.collisonPair[e.constructor.name][this.allObjects[i].constructor.name]();
                     }
                 }
             
