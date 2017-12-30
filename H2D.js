@@ -3,11 +3,15 @@ function H2D(){
     this.allObjects=[];
     this.collisonPair={};
 
-    this.addElement = (e,detectCollision)=>{
+    this.addElement = (e,detectCollision=false)=>{
 
         e.detectCollision = detectCollision;
         this.allObjects.push(e);
        
+    }
+
+    this.removeElement=(e)=>{
+        this.allObjects.splice(this.allObjects.indexOf(e),1);
     }
 
     this.onCollision=(target, objType, callback)=>{
@@ -19,11 +23,14 @@ function H2D(){
     }
 
     this.show=()=>{
-        for (let i = 0; i < this.allObjects.length; i++) {
+        for (let i = this.allObjects.length-1; i >=0; i--) {
+            let beforeLength=this.allObjects.length;
             if (this.allObjects[i].detectCollision){
                 this.checkCollision(this.allObjects[i]);
             }
-            this.allObjects[i].show();
+            let afterLength = this.allObjects.length;
+            if(beforeLength==afterLength)
+                this.allObjects[i].show();
             
         };
     }
@@ -44,7 +51,7 @@ function H2D(){
                 if (this.collisonPair.hasOwnProperty(e.constructor.name)){
 
                     if (this.collisonPair[e.constructor.name].hasOwnProperty(this.allObjects[i].constructor.name)) {
-                        this.collisonPair[e.constructor.name][this.allObjects[i].constructor.name]();
+                        this.collisonPair[e.constructor.name][this.allObjects[i].constructor.name](e, this.allObjects[i]);
                     }
                 }
             
