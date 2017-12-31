@@ -8,6 +8,7 @@ function Paddle(x, y){
 
 
     this.show=function(){
+        rectMode(CENTER);
         rect(this.x, this.y, this.width, this.height);
     }
 

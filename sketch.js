@@ -3,7 +3,7 @@ var width = 500;
 
 var ball = new Ball();
 var p = new Paddle(190, 100);
-var p2 = new Paddle(220, 100);
+var p2 = new Paddle(250, 100);
 var h2d = new H2D();
 console.log(p);
 

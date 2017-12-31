@@ -1,17 +1,17 @@
 function Ball() {
-    this.x = width/2-15;
-    this.y = height-30;
-
     this.width = 30;
     this.height = 30;
+    this.x = width/2;
+    this.y = height-(this.height/2);
+
     this.angle=90;
     this.lastPos={
         x:this.x,
         y:this.y
     }
 
-    this.yspeed=-2;
-    this.xspeed=5;
+    this.yspeed=-0.5;
+    this.xspeed=0;
 
     this.show = function () {
         ellipse(this.x, this.y, this.width, this.height);
@@ -24,11 +24,11 @@ function Ball() {
     }
 
     this.checkBounds=()=>{
-      //  console.log(this.x,this.y);
-        if (this.x <= 0 || this.x+this.width >= 500){
+     
+        if (this.x-(this.width/2) < 0 || this.x+(this.width/2) > width){
             this.fixAngle(true);
         } 
-        else if(this.y-30 <= 0 || this.y+this.height >= 510 ){
+        else if (this.y - (this.height / 2) < 0 || this.y + (this.height / 2) > height ){
             this.fixAngle(false);
         }
     }
@@ -40,14 +40,16 @@ function Ball() {
             let dy = this.y - this.lastPos.y;
             let h = Math.sqrt((Math.pow(dx,2) 
                     + Math.pow(dy,2)));
-            let angle=Math.asin(dx/h);
+            let angle=Math.acos(dy/h);
         console.log(angle);
             if(side){
-                this.xspeed = Math.min(this.xspeed * Math.abs(1.2 * sin(angle)),7)*-1;
-                this.yspeed = Math.min(this.yspeed * Math.abs(1.2 * cos(angle)), 7) ;
+                // this.xspeed = Math.min(this.xspeed * Math.abs(1.2 * sin(angle)),7)*-1;
+                // this.yspeed = Math.min(this.yspeed * Math.abs(1.2 * cos(angle)), 7) ;
+                this.xspeed *= -1;
             }else{
-                this.xspeed = Math.min(this.xspeed * Math.abs(1.2 * sin(angle)), 7) ;
-                this.yspeed = Math.min(this.yspeed * Math.abs(1.2 * cos(angle)), 7) * -1;
+                // this.xspeed = Math.min(this.xspeed * Math.abs(1.2 * sin(angle)), 7) ;
+                // this.yspeed = Math.min(this.yspeed * Math.abs(1.2 * cos(angle)), 7) * -1;
+                 this.yspeed *= -1;
             }
 
             this.lastPos = {

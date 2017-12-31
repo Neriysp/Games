@@ -38,15 +38,15 @@ function H2D(){
     this.checkCollision=(e)=>{
         for (let i = 0; i < this.allObjects.length; i++) {
             if (this.allObjects[i] == e) continue;
-            if (((e.x >= this.allObjects[i].x &&
-                e.x <= this.allObjects[i].x + this.allObjects[i].width)
-                || (e.x + e.width >= this.allObjects[i].x &&
-                e.x + e.width <= this.allObjects[i].x + this.allObjects[i].width))
+            if (((e.x - (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
+                e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
+                || (e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
+                e.x + (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2)))
                 &&
-                ((e.y >= this.allObjects[i].y &&
-                e.y <= this.allObjects[i].y + this.allObjects[i].height)
-                || (e.y + e.height >= this.allObjects[i].y &&
-                e.y + e.height <= this.allObjects[i].y + this.allObjects[i].height))) {
+               ((e.y - (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2) &&
+                e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
+                || (e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2) &&
+                e.y + (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2)))) {
 
                 if (this.collisonPair.hasOwnProperty(e.constructor.name)){
 
