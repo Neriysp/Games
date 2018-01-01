@@ -11,8 +11,8 @@ function Ball() {
         x:this.x,
         y:this.y
     }
-    this.yspeed=-5;
-    this.xspeed=7;
+    this.yspeed=-1;
+    this.xspeed=1;
 
     this.show = function () {
         ellipse(this.x, this.y, this.width, this.height);

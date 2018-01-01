@@ -21,9 +21,13 @@ function setup() {
                 if(paddle.nrHits-1>0){
                     paddle.nrHits--;
                 }else{        
-                h2d.removeElement(paddle);
+                    h2d.removeElement(paddle);
                 }
-            ball.yspeed*=-1;
+                if(h2d.collisonPoint.side){
+                  ball.xspeed*=-1;  
+                }else{
+                    ball.yspeed*=-1;
+                }
     });
  
 }
@@ -35,18 +39,33 @@ function draw() {
     if(ball.init){
         ball.update();
     }
+    console.log(h2d.collisonPoint);
 
 }
 
 function mouseClicked() {
    if(!ball.init){
        ball.init=true;
+   }else{
+       ball.init=false;
    }   
 }
 function mouseMoved() {
     if (!ball.init) {
-        ball.x = mouseX;
-        ball.y = mouseY;
+        if (mouseX >= (width - (ball.width / 2))){
+            ball.x = width - (ball.width / 2);
+        } else if (mouseX <= ball.width / 2){
+            ball.x = ball.width / 2;
+        }else{
+            ball.x=mouseX;
+        }
+        if (mouseY >= (height - (ball.height / 2))) {
+            ball.y = height - (ball.height / 2);
+        } else if (mouseY <= ball.height / 2) {
+            ball.y = ball.height / 2;
+        } else {
+            ball.y = mouseY;
+        }
     }  
 }
 // function randomM(min, max) {
