@@ -4,6 +4,8 @@ function Ball() {
     this.x = width/2;
     this.y = height-(this.height/2);
 
+    this.init=false;
+
     this.angle=90;
     this.lastPos={
         x:this.x,
