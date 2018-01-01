@@ -17,9 +17,14 @@ function setup() {
 
     createCanvas(500, 500);
     h2d.onCollision(new Ball(),new Paddle(),(ball,paddle)=>{
+
+                if(paddle.nrHits>0){
+                    paddle.nrHits--;
+                }else{        
                 h2d.removeElement(paddle);
-                ball.velocity*=-1;
-    })
+                }
+            ball.yspeed*=-1;
+    });
 
 }
 

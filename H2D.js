@@ -2,6 +2,8 @@ function H2D(){
 
     this.allObjects=[];
     this.collisonPair={};
+    this.currentCollide=null;
+
 
     this.addElement = (e,detectCollision=false)=>{
 
@@ -51,10 +53,19 @@ function H2D(){
                 if (this.collisonPair.hasOwnProperty(e.constructor.name)){
 
                     if (this.collisonPair[e.constructor.name].hasOwnProperty(this.allObjects[i].constructor.name)) {
-                        this.collisonPair[e.constructor.name][this.allObjects[i].constructor.name](e, this.allObjects[i]);
+                        //call the callback
+                        if(this.currentCollide==null){
+                            this.collisonPair[e.constructor.name][this.allObjects[i].constructor.name](e, this.allObjects[i]);
+                            this.currentCollide = this.allObjects[i];
+                    }
+                        
                     }
                 }
             
+        }else{
+                if (this.currentCollide == this.allObjects[i]){
+                    this.currentCollide = null;
+                }
         }
     }
 }

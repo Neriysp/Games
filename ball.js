@@ -1,6 +1,6 @@
 function Ball() {
-    this.width = 30;
-    this.height = 30;
+    this.width = 10;
+    this.height = 10;
     this.x = width/2;
     this.y = height-(this.height/2);
 
@@ -9,9 +9,8 @@ function Ball() {
         x:this.x,
         y:this.y
     }
-
-    this.yspeed=-0.5;
-    this.xspeed=0;
+    this.yspeed=-5;
+    this.xspeed=7;
 
     this.show = function () {
         ellipse(this.x, this.y, this.width, this.height);
@@ -41,7 +40,7 @@ function Ball() {
             let h = Math.sqrt((Math.pow(dx,2) 
                     + Math.pow(dy,2)));
             let angle=Math.acos(dy/h);
-        console.log(angle);
+       // console.log(angle);
             if(side){
                 // this.xspeed = Math.min(this.xspeed * Math.abs(1.2 * sin(angle)),7)*-1;
                 // this.yspeed = Math.min(this.yspeed * Math.abs(1.2 * cos(angle)), 7) ;
