@@ -36,38 +36,17 @@ function draw() {
     background(51);
     fill(255);
     h2d.show();
-    if(ball.init){
+    if (ball.init.initRelease){
         ball.update();
     }
-    console.log(h2d.collisonPoint);
-
+    if (mouseIsPressed && !ball.init.initRelease) {
+        ball.initState();
+    } 
 }
 
-function mouseClicked() {
-   if(!ball.init){
-       ball.init=true;
-   }else{
-       ball.init=false;
-   }   
+function mouseReleased() {
+    if (!ball.init.initRelease && ball.init.initDrag){
+
+        ball.init.initRelease = true;
+    }
 }
-function mouseMoved() {
-    if (!ball.init) {
-        if (mouseX >= (width - (ball.width / 2))){
-            ball.x = width - (ball.width / 2);
-        } else if (mouseX <= ball.width / 2){
-            ball.x = ball.width / 2;
-        }else{
-            ball.x=mouseX;
-        }
-        if (mouseY >= (height - (ball.height / 2))) {
-            ball.y = height - (ball.height / 2);
-        } else if (mouseY <= ball.height / 2) {
-            ball.y = ball.height / 2;
-        } else {
-            ball.y = mouseY;
-        }
-    }  
-}
-// function randomM(min, max) {
-//     return Math.random() * (max - min) + min;
-// }

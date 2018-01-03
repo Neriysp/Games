@@ -23,7 +23,6 @@ function H2D(){
         o[objType.constructor.name]=callback;
         this.collisonPair[target.constructor.name]=o;
         
-        console.log(this.collisonPair);
     }
 
     this.show=()=>{
@@ -102,6 +101,8 @@ function H2D(){
             this.collisonPoint.x = e.x;
             this.collisonPoint.y = e.y + (e.height / 2);
             this.collisonPoint.side = false;
+        }else{
+            this.collisonPoint.side=true;
         }
 
     }

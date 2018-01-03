@@ -4,7 +4,12 @@ function Ball() {
     this.x = width/2;
     this.y = height-(this.height/2);
 
-    this.init=false;
+    this.init = {
+        initDrag:false,
+        initRelease:false,
+        initX:-1,
+        initY:-1
+        };
 
     this.angle=90;
     this.lastPos={
@@ -14,7 +19,33 @@ function Ball() {
     this.yspeed=-1;
     this.xspeed=1;
 
-    this.show = function () {
+    this.initState=function(){
+        if (this.init.initX == -1 && this.init.initY == -1) {
+            this.init.initX = mouseX;
+            this.init.initY = mouseY;
+        }
+        let dx = mouseX - this.init.initX;
+        let dy = this.init.initY - mouseY;
+        let newX = this.x - dx;
+        let newY = this.y + dy;
+        let hypotenuse = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+        let angle = atan(dy / dx);
+        if(angle){
+        if(newX<this.x){
+            angle=PI-angle;
+        }
+        this.yspeed = Math.min(0.05 * hypotenuse * sin(angle),9);
+        this.xspeed = Math.min(0.05 * hypotenuse* cos(angle),9);
+       
+        stroke(255);
+        line(this.x, this.y, newX, newY);
+        this.init.initDrag=true;
+         }
+        // console.log('dx:' + dx + ' dy:' + dy + ' newX:' + newX + ' newY:' + newY);
+        // console.log(hypotenuse, 0.01 * hypotenuse * sin(angle), 0.01 * hypotenuse * cos(angle));
+    }
+
+    this.show = () => {
         ellipse(this.x, this.y, this.width, this.height);
         this.checkBounds();
     }
@@ -37,19 +68,11 @@ function Ball() {
 
     this.fixAngle=(side)=>{
 
-            let dx = this.x - this.lastPos.x;
-            let dy = this.y - this.lastPos.y;
-            let h = Math.sqrt((Math.pow(dx,2) 
-                    + Math.pow(dy,2)));
-            let angle=Math.acos(dy/h);
-       // console.log(angle);
             if(side){
-                // this.xspeed = Math.min(this.xspeed * Math.abs(1.2 * sin(angle)),7)*-1;
-                // this.yspeed = Math.min(this.yspeed * Math.abs(1.2 * cos(angle)), 7) ;
+
                 this.xspeed *= -1;
             }else{
-                // this.xspeed = Math.min(this.xspeed * Math.abs(1.2 * sin(angle)), 7) ;
-                // this.yspeed = Math.min(this.yspeed * Math.abs(1.2 * cos(angle)), 7) * -1;
+
                  this.yspeed *= -1;
             }
 
