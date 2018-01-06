@@ -30,15 +30,37 @@ function Ball() {
         let newY = this.y + dy;
         let hypotenuse = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
         let angle = atan(dy / dx);
+        console.log(180 * angle / PI,angle);
+
         if(angle){
         if(newX<this.x){
-            angle=PI-angle;
+            angle=PI-abs(angle);
         }
-        this.yspeed = Math.min(0.05 * hypotenuse * sin(angle),9);
-        this.xspeed = Math.min(0.05 * hypotenuse* cos(angle),9);
-       
+        if (abs(0.05 * hypotenuse * sin(angle))<=5){
+            this.yspeed =-1*Math.abs(0.05 * hypotenuse * sin(angle));
+        }
+        if (0.05 * hypotenuse * cos(angle)>=0){
+            if (0.05 * hypotenuse * cos(angle)<=5)
+                this.xspeed = 0.05 * hypotenuse * cos(angle);
+        }else{
+            if (0.05 * hypotenuse * cos(angle) >= -5)
+            this.xspeed = 0.05 * hypotenuse* cos(angle);
+        }
+       // console.log(this.xspeed,this.yspeed,180*angle/PI);
         stroke(255);
-        line(this.x, this.y, newX, newY);
+            let lineSlope=(newY-this.y)/(newX-this.x);
+            let lineLength = dist(this.x,this.y,newX,newY);
+           
+            if (lineLength >50){
+                let newPoint = this.getLongestLineLength(lineSlope);
+                //console.log(newPoint.x,newPoint.y);
+                
+                line(this.x, this.y, this.x+newPoint.x, this.y+newPoint.y);
+            }else{
+                line(this.x, this.y, newX, newY);
+            }
+
+       
         this.init.initDrag=true;
          }
         // console.log('dx:' + dx + ' dy:' + dy + ' newX:' + newX + ' newY:' + newY);
@@ -82,5 +104,11 @@ function Ball() {
             }
         }
        
+        this.getLongestLineLength = (k)=>{
+        let dx=Math.sqrt(2500/(1+Math.pow(k,2)));
+        let dy=k*dx;
+          
+            return {x:dx,y:dy};
+        }
     
 }
