@@ -40,6 +40,8 @@ function draw() {
         ball.update();
     }
     if (mouseIsPressed && !ball.init.initRelease) {
+        // ball.x=mouseX;
+        // ball.y=mouseY;
         ball.initState();
     } 
 }

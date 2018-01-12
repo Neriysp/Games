@@ -52,7 +52,7 @@ function Ball() {
            
             if (lineLength >50){
                 let newPoint = this.getLongestLineLength(lineSlope);
-                console.log(lineSlope);
+
                 if(lineSlope>0){
                      line(this.x, this.y, this.x-newPoint.x, this.y-newPoint.y);
                 }
