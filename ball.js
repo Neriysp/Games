@@ -30,8 +30,7 @@ function Ball() {
         let newY = this.y + dy;
         let hypotenuse = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
         let angle = atan(dy / dx);
-        console.log(180 * angle / PI,angle);
-
+      
         if(angle){
         if(newX<this.x){
             angle=PI-abs(angle);
@@ -53,9 +52,13 @@ function Ball() {
            
             if (lineLength >50){
                 let newPoint = this.getLongestLineLength(lineSlope);
-                //console.log(newPoint.x,newPoint.y);
-                
-                line(this.x, this.y, this.x+newPoint.x, this.y+newPoint.y);
+                console.log(lineSlope);
+                if(lineSlope>0){
+                     line(this.x, this.y, this.x-newPoint.x, this.y-newPoint.y);
+                }
+                else{
+                    line(this.x, this.y, this.x + newPoint.x, this.y + newPoint.y);
+                }
             }else{
                 line(this.x, this.y, newX, newY);
             }
