@@ -5,6 +5,11 @@ function H2D(){
     this.currentCollide=null;
     this.collisonPoint={};
 
+    this.cellHeight;
+    this.cellWidth;
+    this.rows;
+    this.cols;
+
     this.addElement = (e,detectCollision=false)=>{
 
         e.detectCollision = detectCollision;
@@ -37,7 +42,22 @@ function H2D(){
             
         };
     }
-            
+    
+    this.initMatrix=(cellWidth,cellHeight,screenWidth,screenHeight)=>{
+        this.cellHeight=cellHeight;
+        this.cellWidth=cellWidth;
+        this.rows = screenWidth/cellWidth;
+        this.cols = screenHeight/cellHeight;
+    }
+    
+    this.addToMatrix=(row,col,obj,detectCollision=false)=>{
+        let customObj = new obj.constructor(row*this.cellWidth+this.cellWidth/2
+                                    ,col*this.cellHeight+this.cellHeight/2);
+        this.addElement(customObj,detectCollision);
+
+    }
+
+
     this.checkCollision=(e)=>{
         for (let i = 0; i < this.allObjects.length; i++) {
             let didCollide=false;
@@ -47,11 +67,11 @@ function H2D(){
             if (((e.x - (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
                 e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
                 && (e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
-                && e.y + (e.height / 2) >= this.allObjects[i].y + (this.allObjects[i].height / 2))
+                && e.y + (e.height / 2) > this.allObjects[i].y + (this.allObjects[i].height / 2))
                 || ((e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
                     e.x + (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
                 && (e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
-                && e.y + (e.height / 2) >= this.allObjects[i].y + (this.allObjects[i].height / 2))){
+                && e.y + (e.height / 2) > this.allObjects[i].y + (this.allObjects[i].height / 2))){
                     //bottom
                 if (e.y > this.allObjects[i].y + (this.allObjects[i].height / 2)){   
                     bot = true;
@@ -64,11 +84,11 @@ function H2D(){
                 } 
              if (((e.x - (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
                 e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
-                && (e.y - (e.height / 2) <= this.allObjects[i].y - (this.allObjects[i].height / 2))
+                && (e.y - (e.height / 2) < this.allObjects[i].y - (this.allObjects[i].height / 2))
                 && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))
                 || ((e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
                     e.x + (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
-                && (e.y - (e.height / 2) <= this.allObjects[i].y - (this.allObjects[i].height / 2))
+                && (e.y - (e.height / 2) < this.allObjects[i].y - (this.allObjects[i].height / 2))
                 && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))) {
                     //top
                     
@@ -81,11 +101,11 @@ function H2D(){
                     this.collisonPoint.side = false;
                  }
                 }
-             if (((e.x - (e.width / 2) <= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
+             if (((e.x - (e.width / 2) < this.allObjects[i].x - (this.allObjects[i].width / 2) &&
                 e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2))
                 && (e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
                 && e.y - (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))
-                || ((e.x - (e.width / 2) <= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
+                || ((e.x - (e.width / 2) < this.allObjects[i].x - (this.allObjects[i].width / 2) &&
                     e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2))
                 && (e.y + (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
                 && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))) {
@@ -100,12 +120,12 @@ function H2D(){
                 }  
             }
              if (((e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2) &&
-                e.x + (e.width / 2) >= this.allObjects[i].x + (this.allObjects[i].width / 2))
-                && (e.y - (e.height / 2) <= this.allObjects[i].y - (this.allObjects[i].height / 2))
-                && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))
+                e.x + (e.width / 2) > this.allObjects[i].x + (this.allObjects[i].width / 2))
+                && (e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
+                && e.y - (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))
                 || ((e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2) &&
-                    e.x + (e.width / 2) >= this.allObjects[i].x + (this.allObjects[i].width / 2))
-                && (e.y - (e.height / 2) <= this.allObjects[i].y - (this.allObjects[i].height / 2))
+                    e.x + (e.width / 2) > this.allObjects[i].x + (this.allObjects[i].width / 2))
+                && (e.y + (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
                 && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))) {
                     //right
                  if (!bot && !top) { 

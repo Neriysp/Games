@@ -7,18 +7,31 @@ var p2 = new Paddle(220, 100);
 var h2d = new H2D();
 console.log(p);
 
-h2d.addElement(p);
-h2d.addElement(p2);
+//h2d.addElement(p);
+//h2d.addElement(p2);
 h2d.addElement(ball, true);
 
 
 
 function setup() {
+    h2d.initMatrix(50,50,500,500);
 
+    for(let i=0;i<h2d.rows;i++){
+        // let p=new Paddle(i*h2d.cellWidth+p2.width/2,h2d.cellHeight);
+        let hole = Math.floor(Math.random() * h2d.cols);
+        console.log(hole);
+        if(i%2==0 && i<5){
+            for(let j=0;j<h2d.cols;j++){
+                if(j!= hole){
+                    h2d.addToMatrix(j,i,new Paddle());
+                }
+            }
+    }
+    }
     createCanvas(500, 500);
     h2d.onCollision(new Ball(),new Paddle(),(ball,paddle)=>{
 
-                if(paddle.nrHits-1>0){
+                if(paddle.nrHits>1){
                     paddle.nrHits--;
                 }else{        
                     h2d.removeElement(paddle);

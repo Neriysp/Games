@@ -84,12 +84,25 @@ function Ball() {
      
         if (this.x-(this.width/2) < 0 || this.x+(this.width/2) > width){
             this.fixAngle(true);
-        } 
-        else if (this.y - (this.height / 2) < 0 || this.y + (this.height / 2) > height ){
+        } else if (this.y - (this.height / 2) < 0) {
             this.fixAngle(false);
         }
+        else if ( this.y + (this.height / 2) > height ){
+          this.resetPosition();
+        }
+        
     }
 
+    this.resetPosition=()=>{
+        this.xspeed = 0;
+        this.yspeed = 0;
+        this.init.initDrag=false;
+        this.init.initRelease=false;
+        this.init.initX= -1;
+        this.init.initY= -1;
+        this.x = width / 2;
+        this.y = height - (this.height / 2);
+    }
 
     this.fixAngle=(side)=>{
 
