@@ -5,26 +5,31 @@ var ball = new Ball();
 var p = new Paddle(190, 100);
 var p2 = new Paddle(220, 100);
 var h2d = new H2D();
+var stack=5;
 console.log(p);
+var ballArr = [];
+var nrBallsOut = 0;
 
-//h2d.addElement(p);
-//h2d.addElement(p2);
 h2d.addElement(ball, true);
-
-
 
 function setup() {
     h2d.initMatrix(50,50,500,500);
 
     for(let i=0;i<h2d.rows;i++){
-        // let p=new Paddle(i*h2d.cellWidth+p2.width/2,h2d.cellHeight);
+
         let hole = Math.floor(Math.random() * h2d.cols);
-        console.log(hole);
+        let food= Math.random();
+
         if(i%2==0 && i<5){
             for(let j=0;j<h2d.cols;j++){
                 if(j!= hole){
-                    h2d.addToMatrix(j,i,new Paddle());
+                    h2d.addToMatrix(new Paddle(),false,i,j);
+                }else{
+                    if(food<1){
+                        h2d.addToMatrix(new Food(),false,i,j,5);
+                    }
                 }
+                
             }
     }
     }
@@ -42,6 +47,13 @@ function setup() {
                     ball.yspeed*=-1;
                 }
     });
+
+    h2d.onCollision(new Ball(), new Food(), (ball, food) => {
+
+        stack+=food.nr;
+
+        h2d.removeElement(food);
+    });
  
 }
 
@@ -51,17 +63,37 @@ function draw() {
     h2d.show();
     if (ball.init.initRelease){
         ball.update();
+        for(let i=0;i<ballArr.length;i++){
+                ballArr[i].update();
+        }
     }
     if (mouseIsPressed && !ball.init.initRelease) {
         // ball.x=mouseX;
         // ball.y=mouseY;
         ball.initState();
     } 
+    textSize(8);
+    text('x' + stack, width / 2 + 20, height - 3);
 }
 
 function mouseReleased() {
     if (!ball.init.initRelease && ball.init.initDrag){
-
+        ball.velocityInit.xSpeedInit = ball.xspeed;
+        ball.velocityInit.ySpeedInit = ball.yspeed;
+        let length = stack - 1;
+        for (let i = ballArr.length; i < length;i++){
+            let newball = new Ball(ball.velocityInit.xSpeedInit, ball.velocityInit.ySpeedInit);
+            newball.x = ball.x - ((i + 1) * ball.velocityInit.xSpeedInit)*ball.width/2;
+            newball.y = ball.y + ((i + 1) * Math.abs(ball.velocityInit.ySpeedInit))*ball.height/2;
+            ballArr.push(newball);
+            h2d.addElement(newball, true);
+        }
+        for (let i = 0; i < ballArr.length;i++){
+            ballArr[i].xspeed = ball.velocityInit.xSpeedInit;
+            ballArr[i].yspeed = ball.velocityInit.ySpeedInit;
+            ballArr[i].x = ball.x - ((i + 1) * ball.velocityInit.xSpeedInit) * ball.width / 2;
+            ballArr[i].y = ball.y + ((i + 1) * Math.abs(ball.velocityInit.ySpeedInit)) * ball.height / 2;
+        }
         ball.init.initRelease = true;
     }
 }
