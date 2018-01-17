@@ -8,15 +8,7 @@ function Paddle(x, y){
     
     this.show=function(){
         if(this.row==h2d.rows-1){
-                fill(255);
-                textSize(28);
-                text("GAME OVER",width/3,height/3);
-            if (document.getElementsByTagName('button').length==0){
-
-            button = createButton('Try Again');
-         
-            button.mousePressed(this.tryAgain);
-            }
+            showEndGame("GAME LOST");
         }else{
         rectMode(CENTER);
         noFill();
@@ -32,7 +24,4 @@ function Paddle(x, y){
         this.x+=0.1;
     }
     
-    this.tryAgain=()=>{
-        location.reload();
-    }
 }

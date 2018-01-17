@@ -40,6 +40,14 @@ function setup() {
                     paddle.nrHits--;
                 }else{        
                     h2d.removeElement(paddle);
+                    let gameWon=true;
+                    for (let i of h2d.allObjects) {
+                        if (i.constructor.name == 'Paddle') 
+                            gameWon=false;
+                    }
+                    if(gameWon){
+                        showEndGame("GAME WON");
+                    }
                 }
                 if(h2d.collisonPoint.side){
                   ball.xspeed*=-1;  
@@ -56,6 +64,19 @@ function setup() {
     });
  
 }
+function showEndGame(result){
+    fill(255);
+    textSize(28);
+    text(result, width / 3, height / 3);
+    if (document.getElementsByTagName('button').length == 0) {
+        button = createButton('Try Again');
+        button.mousePressed(reloadGame);
+    }
+}
+
+function reloadGame(){
+        location.reload();
+}
 
 function draw() {
     background(51);
@@ -68,8 +89,6 @@ function draw() {
         }
     }
     if (mouseIsPressed && !ball.init.initRelease) {
-        // ball.x=mouseX;
-        // ball.y=mouseY;
         ball.initState();
     } 
     textSize(8);
