@@ -32,6 +32,12 @@ function H2D(){
         
     }
 
+    this.objects=(callback)=>{
+        for(let el of this.allObjects){
+            callback(el);
+        }
+    }
+
     this.show=()=>{
         for (let i = this.allObjects.length-1; i >=0; i--) {
             let beforeLength=this.allObjects.length;

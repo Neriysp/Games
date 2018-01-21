@@ -2,11 +2,8 @@ var height = 500;
 var width = 500;
 
 var ball = new Ball();
-var p = new Paddle(190, 100);
-var p2 = new Paddle(220, 100);
 var h2d = new H2D();
-var stack=5;
-console.log(p);
+var stack=55;
 var ballArr = [];
 var nrBallsOut = 0;
 
@@ -23,9 +20,10 @@ function setup() {
         if(i%2==0 && i<5){
             for(let j=0;j<h2d.cols;j++){
                 if(j!= hole){
-                    h2d.addToMatrix(new Paddle(),false,i,j);
+                    let number = Math.ceil(stack / 2 + Math.random() * (stack + stack / 2));
+                    h2d.addToMatrix(new Paddle(), false, i, j, number);
                 }else{
-                    if(food<1){
+                    if(food<0.8){
                         h2d.addToMatrix(new Food(),false,i,j,5);
                     }
                 }
@@ -65,6 +63,7 @@ function setup() {
  
 }
 function showEndGame(result){
+    noLoop();
     fill(255);
     textSize(28);
     text(result, width / 3, height / 3);
@@ -79,7 +78,7 @@ function reloadGame(){
 }
 
 function draw() {
-    background(51);
+    background(35, 41, 51);
     fill(255);
     h2d.show();
     if (ball.init.initRelease){
@@ -91,6 +90,7 @@ function draw() {
     if (mouseIsPressed && !ball.init.initRelease) {
         ball.initState();
     } 
+    strokeWeight(1);
     textSize(8);
     text('x' + stack, width / 2 + 20, height - 3);
 }
