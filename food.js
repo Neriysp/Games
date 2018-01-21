@@ -4,7 +4,7 @@ function Food(x, y,nrBallsAdded) {
     this.y = y;
     this.nr=nrBallsAdded;
 
-    this.width = 20;
+    this.width =20;
     this.height = 20;
 
 

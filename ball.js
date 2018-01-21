@@ -1,8 +1,10 @@
 function Ball(xspeed, yspeed) {
-this.width = 10;
-this.height = 10;
+this.width = 15;
+this.height = 15;
 this.x = width / 2;
 this.y = height - (this.height / 2);
+this.screenDimensionWidth=width;
+this.screenDimensionHeight=height;
 
 this.init = {
     initDrag: false,
@@ -15,7 +17,6 @@ this.velocityInit = {
     ySpeedInit: -1
 }
 
-this.angle = 90;
 this.lastPos = {
     x: this.x,
     y: this.y
@@ -37,7 +38,6 @@ this.initState = function () {
     let newY = this.y + dy;
     let hypotenuse = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     let angle = atan(dy / dx);
-
     if (angle) {
         if (newX < this.x) {
             angle = PI - abs(angle);
@@ -78,8 +78,8 @@ this.initState = function () {
 }
 
 this.show = () => {
-    if (this.x < 500-this.width/2 && this.x > this.width/2 && this.y <= 500) {
-        if (this.y + (this.height / 2) + 2 < 500) {
+    if (this.x < this.screenDimensionWidth - this.width / 2 && this.x > this.width / 2 && this.y <= this.screenDimensionHeight) {
+        if (this.y + (this.height / 2) + 2 < this.screenDimensionHeight) {
             this.started = true;
         }
         ellipse(this.x, this.y, this.width, this.height);
@@ -179,7 +179,7 @@ this.fixAngle = (side) => {
 }
 
 this.getLongestLineLength = (k) => {
-    let dx = Math.sqrt(2500 / (1 + Math.pow(k, 2)));
+    let dx = Math.sqrt(3600 / (1 + Math.pow(k, 2)));
     let dy = k * dx;
 
     return {

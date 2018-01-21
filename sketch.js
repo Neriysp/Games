@@ -1,17 +1,16 @@
-var height = 500;
-var width = 500;
+var height = 600;
+var width = 600;
 
 var ball = new Ball();
 var h2d = new H2D();
-var stack=55;
+var stack=5;
 var ballArr = [];
 var nrBallsOut = 0;
 
 h2d.addElement(ball, true);
 
 function setup() {
-    h2d.initMatrix(50,50,500,500);
-
+    h2d.initMatrix(60,60,600,600);
     for(let i=0;i<h2d.rows;i++){
 
         let hole = Math.floor(Math.random() * h2d.cols);
@@ -20,7 +19,7 @@ function setup() {
         if(i%2==0 && i<5){
             for(let j=0;j<h2d.cols;j++){
                 if(j!= hole){
-                    let number = Math.ceil(stack / 2 + Math.random() * (stack + stack / 2));
+                    let number = Math.ceil(stack / 2 + Math.random() * (stack + stack / 2))+1;
                     h2d.addToMatrix(new Paddle(), false, i, j, number);
                 }else{
                     if(food<0.8){
@@ -31,7 +30,7 @@ function setup() {
             }
     }
     }
-    createCanvas(500, 500);
+    createCanvas(600, 600);
     h2d.onCollision(new Ball(),new Paddle(),(ball,paddle)=>{
 
                 if(paddle.nrHits>1){
@@ -47,9 +46,13 @@ function setup() {
                         showEndGame("GAME WON");
                     }
                 }
-                if(h2d.collisonPoint.side){
+                if(h2d.collisonPoint.side==true){
                   ball.xspeed*=-1;  
-                }else{
+                } else if (h2d.collisonPoint.side=='CEPI'){
+                    ball.xspeed *= -1;  
+                    ball.yspeed *= -1;
+                }
+                else{
                     ball.yspeed*=-1;
                 }
     });
