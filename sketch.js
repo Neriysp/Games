@@ -46,13 +46,13 @@ function setup() {
                         showEndGame("GAME WON");
                     }
                 }
-                if(h2d.collisonPoint.side==true){
+             if (h2d.collisonPoint.type == "right" || h2d.collisonPoint.type == "left"){
                   ball.xspeed*=-1;  
-                } else if (h2d.collisonPoint.side=='CEPI'){
+                 } else if (h2d.collisonPoint.type=="corner"){
                     ball.xspeed *= -1;  
                     ball.yspeed *= -1;
                 }
-                else{
+                else if (h2d.collisonPoint.type == "top" || h2d.collisonPoint.type == "bottom"){
                     ball.yspeed*=-1;
                 }
     });

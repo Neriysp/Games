@@ -25,8 +25,6 @@ function H2D() {
 
     this.onCollision = (target, objType, callback) => {
         let o = {};
-        // o[objType.constructor.name]=callback;
-        // this.collisonPair[target.constructor.name]=o;
         o[target.constructor.name] = callback;
         this.collisonPair[objType.constructor.name] = o;
 
@@ -93,80 +91,56 @@ function H2D() {
     this.checkCollision = (e) => {
         for (let i = 0; i < this.allObjects.length; i++) {
             let didCollide = false;
-            let bot = false;
-            let top = false;
             if (this.allObjects[i] == e) continue;
-            if (((e.x - (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
-                e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
-                && (e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
-                && e.y + (e.height / 2) > this.allObjects[i].y + (this.allObjects[i].height / 2))
-                || ((e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
-                    e.x + (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
-                    && (e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
-                    && e.y + (e.height / 2) > this.allObjects[i].y + (this.allObjects[i].height / 2))) {
+            if (e.y - this.allObjects[i].y <= (this.allObjects[i].height / 2) + (e.height / 2)
+                && e.y - this.allObjects[i].y >= 0 && abs(this.allObjects[i].x - e.x) <= (this.allObjects[i].width / 2)) {
                 //bottom
-                if (e.y > this.allObjects[i].y + (this.allObjects[i].height / 2)) {
-                    bot = true;
-                    // console.log('bottom');
-                    didCollide = true;
-                    this.collisonPoint.x = e.x;
-                    this.collisonPoint.y = e.y - (e.height / 2);
-                    this.collisonPoint.side = false;
-                }
+                didCollide = true;
+                this.collisonPoint.x = e.x;
+                this.collisonPoint.y = e.y - (e.height / 2);
+                this.collisonPoint.type = "bottom";
+              
             }
-            if (((e.x - (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
-                e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
-                && (e.y - (e.height / 2) < this.allObjects[i].y - (this.allObjects[i].height / 2))
-                && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))
-                || ((e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2) &&
-                    e.x + (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2))
-                    && (e.y - (e.height / 2) < this.allObjects[i].y - (this.allObjects[i].height / 2))
-                    && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))) {
+           else if ( this.allObjects[i].y - e.y <= (this.allObjects[i].height / 2) + (e.height / 2)
+                && this.allObjects[i].y - e.y >= 0 && abs(this.allObjects[i].x - e.x) <= (this.allObjects[i].width / 2)) {
                 //top
-
-                if (e.y < this.allObjects[i].y - (this.allObjects[i].height / 2)) {
-                    top = true;
-                    // console.log('top');
-                    didCollide = true;
-                    this.collisonPoint.x = e.x;
-                    this.collisonPoint.y = e.y + (e.height / 2);
-                    this.collisonPoint.side = false;
-                }
+                didCollide = true;
+                this.collisonPoint.x = e.x;
+                this.collisonPoint.y = e.y + (e.height / 2);
+                this.collisonPoint.type = "top";
             }
-            if (((e.x - (e.width / 2) < this.allObjects[i].x - (this.allObjects[i].width / 2) &&
-                e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2))
-                && (e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
-                && e.y - (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))
-                || ((e.x - (e.width / 2) < this.allObjects[i].x - (this.allObjects[i].width / 2) &&
-                    e.x + (e.width / 2) >= this.allObjects[i].x - (this.allObjects[i].width / 2))
-                    && (e.y + (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
-                    && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))) {
+           else if (this.allObjects[i].x - e.x <= (this.allObjects[i].width / 2) + (e.width / 2)
+                && this.allObjects[i].x - e.x >= 0 && abs(this.allObjects[i].y - e.y) <= (this.allObjects[i].height / 2)) {
                 //left
-                if (!bot && !top) {
-                    //  console.log('left');
                     didCollide = true;
                     this.collisonPoint.x = e.x + (e.width / 2);
                     this.collisonPoint.y = e.y;
-                    this.collisonPoint.side = true;
-
-                }
+                    this.collisonPoint.type = "left";
             }
-            if (((e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2) &&
-                e.x + (e.width / 2) > this.allObjects[i].x + (this.allObjects[i].width / 2))
-                && (e.y - (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
-                && e.y - (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))
-                || ((e.x - (e.width / 2) <= this.allObjects[i].x + (this.allObjects[i].width / 2) &&
-                    e.x + (e.width / 2) > this.allObjects[i].x + (this.allObjects[i].width / 2))
-                    && (e.y + (e.height / 2) <= this.allObjects[i].y + (this.allObjects[i].height / 2))
-                    && e.y + (e.height / 2) >= this.allObjects[i].y - (this.allObjects[i].height / 2))) {
+           else if (e.x - this.allObjects[i].x <= (this.allObjects[i].width / 2) + (e.width / 2)
+                && e.x - this.allObjects[i].x >= 0 && abs(this.allObjects[i].y - e.y) <= (this.allObjects[i].height / 2)) {
                 //right
-                if (!bot && !top) {
-                    // console.log('right');
                     didCollide = true;
                     this.collisonPoint.x = e.x - (e.width / 2);
                     this.collisonPoint.y = e.y;
-                    this.collisonPoint.side = true;
-                }
+                    this.collisonPoint.type = "right";
+            }
+            else if (this.inSameLine({ x: e.x, o: e, y: e.y }, 
+                { x: this.allObjects[i].x, o: this.allObjects[i], y: this.allObjects[i].y },
+                { x: this.allObjects[i].x + (this.allObjects[i].width / 2), y: this.allObjects[i].y + (this.allObjects[i].height / 2) })
+                || this.inSameLine({ x: e.x, o: e, y: e.y },
+                    { x: this.allObjects[i].x, o: this.allObjects[i], y: this.allObjects[i].y },
+                    { x: this.allObjects[i].x - (this.allObjects[i].width / 2), y: this.allObjects[i].y + (this.allObjects[i].height / 2) })
+                || this.inSameLine({ x: e.x, o: e, y: e.y },
+                    { x: this.allObjects[i].x, o: this.allObjects[i], y: this.allObjects[i].y },
+                    { x: this.allObjects[i].x - (this.allObjects[i].width / 2), y: this.allObjects[i].y - (this.allObjects[i].height / 2) })
+                || this.inSameLine({ x: e.x, o: e, y: e.y },
+                    { x: this.allObjects[i].x, o: this.allObjects[i], y: this.allObjects[i].y },
+                    { x: this.allObjects[i].x + (this.allObjects[i].width / 2), y: this.allObjects[i].y - (this.allObjects[i].height / 2) }))
+            {
+                didCollide = true;
+                this.collisonPoint.type = "corner";
+
             }
             if (didCollide) {
 
@@ -176,7 +150,6 @@ function H2D() {
                         //call the callback
 
                         if (this.currentCollide == null) {
-
 
                             this.collisonPair[this.allObjects[i].constructor.name][e.constructor.name](e, this.allObjects[i]);
                             this.currentCollide = this.allObjects[i];
@@ -193,4 +166,15 @@ function H2D() {
         }
     }
 
+    this.inSameLine=(pointA,pointB,pointC)=>{
+        if(pointA.x * (pointB.y - pointC.y) + pointB.x * (pointC.y - pointA.y)+pointC.x * (pointA.y - pointB.y)==0){
+            if (dist(pointA.x, pointA.y, pointB.x, pointB.y) <=(Math.sqrt(Math.pow(pointB.o.width, 2) + Math.pow(pointB.o.height, 2)) / 2)
+                + (Math.sqrt(Math.pow(pointA.o.width, 2) + Math.pow(pointA.o.height, 2)) / 2)
+            )
+            {
+                    return true;
+            }
+        }
+        return false;
+    }
 }
