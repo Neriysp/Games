@@ -4,4 +4,3 @@ I have also buid H2D which is a small framework to make it easier to develop 2D 
 
 1.Balls Bricks Breaker
 
-![alt text](https://raw.githubusercontent.com/Neriysp/Games/master/bals.png)
