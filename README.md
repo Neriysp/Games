@@ -5,6 +5,6 @@ I have also buid H2D which is a small framework to make it easier to develop 2D 
 # 1. Balls Bricks Breaker
 ![Balls Bricks Breaker](bals.PNG)
 # 2. Order Numbers
-<img src="https://github.com/Neriysp/Games/blob/master/Order%20Numbers/OrderNumbers.PNG" style="max-width:100%;">
+<img src="https://github.com/Neriysp/Games/blob/master/Order%20Numbers/OrderNumbers.PNG" style="width:300px;height:300px">
 # 3. Canvas
-<img src=https://github.com/Neriysp/Games/blob/master/Canvas/Canvas.PNG" style="max-width:100%;">
+<img src=https://github.com/Neriysp/Games/blob/master/Canvas/Canvas.PNG" style="style="width:300px;height:300px"">
